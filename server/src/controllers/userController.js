@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { sendMail } from "../utils/sendEmail.js";
 import { success } from "zod";
+import Session from "../models/sessionModel.js";
+import Question from "../models/questionsModel.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -48,9 +50,16 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ email });
 
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
     const isCorrectPassword = await bcrypt.compare(password, user.password);
 
-    if (!isCorrectPassword || !user) {
+    if (!isCorrectPassword) {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
@@ -117,7 +126,8 @@ export const forgotPassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found",
+        message:
+          "If an account with this email exists, we've sent a password reset link.",
       });
     }
 
@@ -133,7 +143,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const resetUrl = `localhosh:3000/api/auth/reset-password/${resetToken}`;
+    const resetUrl = `localhost:5173/auth/reset-password/${resetToken}`;
 
     await sendMail({
       to: user.email,
@@ -146,8 +156,7 @@ export const forgotPassword = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Reset token generated successfully",
-      resetToken,
+      message: "Password reset link sent to your email.",
     });
   } catch (err) {
     res.status(500).json({
@@ -223,7 +232,7 @@ export const changePassword = async (req, res) => {
     const isSamePassword = await bcrypt.compare(newPassword, user.password);
 
     if (isSamePassword) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "New password cannot be same as old password.",
       });
@@ -241,6 +250,39 @@ export const changePassword = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to change password",
+      error: err.message,
+    });
+  }
+};
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const sessions = await Session.find({ user: userId }).select("_id");
+
+    const sessionIds = sessions.map((session) => session._id);
+
+    await Question.deleteMany({
+      session: { $in: sessionIds },
+    });
+
+    await Session.deleteMany({
+      user: userId,
+    });
+
+    await User.findByIdAndDelete(userId);
+
+    res.clearCookie("token");
+
+    return res.status(200).json({
+      success: true,
+      message: "Account deleted successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Error deleting account",
       error: err.message,
     });
   }

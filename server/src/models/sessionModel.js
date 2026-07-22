@@ -60,6 +60,8 @@ const sessionSchema = new mongoose.Schema(
       type: Number,
       min: 5,
       max: 30,
+      required: true,
+      default: 10,
     },
     questionType: {
       type: String,
@@ -68,9 +70,14 @@ const sessionSchema = new mongoose.Schema(
       default: "mixed",
     },
 
+    answeredCount: {
+      type: Number,
+      default: 0,
+    },
+
     status: {
       type: String,
-      enum: ["pending", "in-progress", "completed", "failed"],
+      enum: ["pending", "in-progress", "completed"],
       default: "pending",
     },
 

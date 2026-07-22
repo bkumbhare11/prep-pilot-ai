@@ -9,6 +9,8 @@ import {
   getResult,
   getHistory,
   getSessionById,
+  getDashboardStats,
+  deleteSession,
 } from "../controllers/sessionController.js";
 
 const router = express.Router();
@@ -28,6 +30,10 @@ router.get("/:sessionId/result", authMiddleware, getResult);
 
 router.get("/history", authMiddleware, getHistory);
 
+router.get("/dashboard-stats", authMiddleware, getDashboardStats);
+
 router.get("/:sessionId", authMiddleware, getSessionById);
+
+router.delete("/:sessionId/delete-session", authMiddleware, deleteSession);
 
 export default router;

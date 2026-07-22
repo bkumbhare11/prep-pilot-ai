@@ -2,6 +2,7 @@ import Session from "../models/sessionModel.js";
 import Question from "../models/questionsModel.js";
 import { genrateQuestion, evaluateAnswers } from "../services/aiService.js";
 import { success } from "zod";
+import mongoose from "mongoose";
 
 export const createSession = async (req, res) => {
   try {
@@ -20,27 +21,31 @@ export const createSession = async (req, res) => {
       user: userId,
     });
 
-    const questions = await genrateQuestion(session);
+    try {
+      const questions = await genrateQuestion(session);
 
-    const questionsDocs = questions.map((question) => {
-      return {
+      const questionsDocs = questions.map((question) => ({
         ...question,
         session: session._id,
-      };
-    });
+      }));
 
-    const savedQuestions = await Question.insertMany(questionsDocs);
-    session.status = "in-progress";
-    await session.save();
+      const savedQuestions = await Question.insertMany(questionsDocs);
 
-    res.status(201).json({
-      success: true,
-      message: "session created successfully",
-      data: {
-        session,
-        questions: savedQuestions,
-      },
-    });
+      session.status = "in-progress";
+      await session.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "Session created successfully",
+        data: {
+          session,
+          questions: savedQuestions,
+        },
+      });
+    } catch (error) {
+      await Session.findByIdAndDelete(session._id);
+      throw error;
+    }
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -67,8 +72,18 @@ export const submitAnswer = async (req, res) => {
       });
     }
 
+    let isFirstAnswer = !question.userAnswer;
+
     question.userAnswer = userAnswer;
     await question.save();
+
+    if (isFirstAnswer) {
+      await Session.findByIdAndUpdate(sessionId, {
+        $inc: {
+          answeredCount: 1,
+        },
+      });
+    }
 
     res.status(200).json({
       success: true,
@@ -170,8 +185,12 @@ export const finishSession = async (req, res) => {
 export const getResult = async (req, res) => {
   try {
     const { sessionId } = req.params;
+    const userId = req.user.id;
 
-    const session = await Session.findById(sessionId);
+    const session = await Session.findOne({
+      _id: sessionId,
+      user: userId,
+    });
 
     if (!session) {
       return res.status(404).json({
@@ -298,6 +317,108 @@ export const getSessionById = async (req, res) => {
       success: false,
       message: "Failed to get session",
       error: err.message,
+    });
+  }
+};
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.user._id);
+
+    const stats = await Session.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+
+          totalSessions: {
+            $sum: 1,
+          },
+
+          completedSessions: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ["$status", "completed"],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+
+          incompleteSessions: {
+            $sum: {
+              $cond: [
+                {
+                  $ne: ["$status", "completed"],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+
+          practiceSessions: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ["$mode", "practice"],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+
+          interviewSessions: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ["$mode", "interview"],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+
+          averageScore: {
+            $avg: {
+              $cond: [
+                {
+                  $eq: ["$status", "completed"],
+                },
+                "$overallScore",
+                null,
+              ],
+            },
+          },
+        },
+      },
+    ]);
+
+    const recentSessions = await Session.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        stats: stats[0],
+        recentSessions,
+      },
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to get dashboard stats",
+      error: error.message,
     });
   }
 };

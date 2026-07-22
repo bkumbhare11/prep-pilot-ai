@@ -36,15 +36,27 @@ const questionSchema = new mongoose.Schema(
       },
     },
 
-    expectedAnswer: {
+    codeSnippet: {
       type: String,
       default: "",
-      required: function () {
-        return this.type === "theory";
-      },
+    },
+
+    language: {
+      type: String,
+      default: "",
     },
 
     idealAnswer: {
+      type: String,
+      default: "",
+    },
+
+    idealCodeSnippet: {
+      type: String,
+      default: "",
+    },
+
+    idealCodeLanguage: {
       type: String,
       default: "",
     },

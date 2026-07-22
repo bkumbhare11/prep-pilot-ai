@@ -5,7 +5,7 @@ const practiceSchema = z.object({
   title: z.string().trim().min(3, "Title must be at least 3 characters"),
   topics: z
     .array(z.string().trim().min(3, "Topic Cannot be empty"))
-    .min(1, "Select at least one topic"),
+    .min(1, "Enter at least one topic"),
   difficulty: z.enum(["easy", "medium", "hard"]),
   questionType: z.enum(["theory", "mcq", "mixed"]),
   questionCount: z
@@ -20,7 +20,7 @@ const interviewSchema = z.object({
   experienceLevel: z.enum(["fresher", "junior", "mid", "senior"]),
   techStack: z
     .array(z.string().trim().min(1, "Tech stack cannot be empty"))
-    .min(1, "Select at least one technology"),
+    .min(1, "Enter at least one technology"),
 
   difficulty: z.enum(["easy", "medium", "hard"]),
   questionType: z.enum(["theory", "mcq", "mixed"]),

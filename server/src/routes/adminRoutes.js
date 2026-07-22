@@ -25,7 +25,7 @@ router.delete(
 router.get("/all-sessions", authMiddleware, adminMiddleware, getAllSessions);
 
 router.delete(
-  "/delete-session",
+  "/delete-session/:sessionId",
   authMiddleware,
   adminMiddleware,
   deleteSession,
