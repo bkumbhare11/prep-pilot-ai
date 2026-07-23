@@ -21,10 +21,13 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Users from "@/pages/admin/Users";
 import Sessions from "@/pages/admin/Sessions";
 import AdminNavbar from "@/components/navigation/AdminNavbar";
+import HomeRedirect from "./HomeRedirect";
 
 function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<HomeRedirect />} />
+
       <Route element={<PublicRoutes />}>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />

@@ -76,7 +76,7 @@ function Login() {
             <InputGroup className="w-full h-12 border border-slate-800 bg-slate-950/50  focus-within:ring-0!">
               <InputGroupInput
                 id="email"
-                placeholder="Enter your email"
+                placeholder="Enter Email"
                 className="placeholder-slate-500! text-sm"
                 {...register("email")}
               />
@@ -103,7 +103,7 @@ function Login() {
               <InputGroupInput
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Create a password"
+                placeholder="Enter Password"
                 className="placeholder-slate-500! text-sm"
                 {...register("password")}
               />

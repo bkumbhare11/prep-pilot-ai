@@ -10,7 +10,7 @@ import { BsSearch } from "react-icons/bs";
 import { cleanDate } from "@/utils/formateDate";
 import { showError, showSuccess } from "@/utils/toast";
 import { getErrorMessage } from "@/utils/errorHandler";
-import { Loader } from "lucide-react";
+import Loader from "@/components/loaders/Loader";
 
 function Users() {
   const [usersData, setUsersData] = useState([]);

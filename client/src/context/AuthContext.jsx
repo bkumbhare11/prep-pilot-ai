@@ -11,7 +11,6 @@ function AuthProvider({ children }) {
     try {
       const data = await getProfile();
       console.log(data.user.role);
-
       setUser(data.user);
     } catch (error) {
       console.log(error);

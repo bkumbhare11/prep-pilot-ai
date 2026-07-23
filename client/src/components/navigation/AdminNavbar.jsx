@@ -47,7 +47,7 @@ function AdminNavbar() {
             <TbLogout />
           </button>
           <button
-            className="text-red-500 bg-red-500/10 border border-red-500/20 rounded-lg p-2 hidden md:block"
+            className="text-red-500 bg-red-500/10 border border-red-500/20 rounded-lg p-2 hidden md:block hover:bg-red-500 hover:text-white active:scale-95"
             onClick={logout}
           >
             Logout

@@ -256,15 +256,15 @@ function NewSession() {
                           onValueChange={field.onChange}
                           className="flex flex-wrap gap-4 mt-1"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="easy" id="easy" />
                             <Label htmlFor="easy">Easy</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="medium" id="medium" />
                             <Label htmlFor="medium">Medium</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="hard" id="hard" />
                             <Label htmlFor="hard">Mixed</Label>
                           </div>
@@ -291,19 +291,19 @@ function NewSession() {
                           onValueChange={field.onChange}
                           className="flex flex-wrap gap-4 mt-1"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="mcq" id="mcq" />
                             <Label htmlFor="mcq" className="cursor-pointer">
                               MCQ
                             </Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="theory" id="theory" />
                             <Label htmlFor="theory" className="cursor-pointer">
                               Theory
                             </Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="mixed" id="mixed" />
                             <Label htmlFor="mixed" className="cursor-pointer">
                               Mixed
@@ -334,27 +334,27 @@ function NewSession() {
                           onValueChange={field.onChange}
                           className="flex flex-wrap gap-4 mt-1"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="5" id="5" />
                             <Label htmlFor="5">5</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="10" id="10" />
                             <Label htmlFor="10">10</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="15" id="15" />
                             <Label htmlFor="15">15</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="20" id="20" />
                             <Label htmlFor="20">20</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="25" id="25" />
                             <Label htmlFor="25">25</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="30" id="30" />
                             <Label htmlFor="30">30</Label>
                           </div>
@@ -381,19 +381,19 @@ function NewSession() {
                           onValueChange={field.onChange}
                           className="flex flex-wrap gap-4 mt-1"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="fresher" id="fresher" />
                             <Label htmlFor="fresher">Fresher</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="junior" id="junior" />
                             <Label htmlFor="junior">Junior Level</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="mid" id="mid" />
                             <Label htmlFor="mid">Mid Level</Label>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 text-slate-400">
                             <RadioGroupItem value="senior" id="senior" />
                             <Label htmlFor="senior">Senior Level</Label>
                           </div>
