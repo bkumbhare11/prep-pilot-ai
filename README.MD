@@ -129,16 +129,6 @@ Built using the MERN Stack with Google Gemini AI integration.
 
 ![History](./screenshots/History.jpeg)
 
-Example:
-
-- Login Page
-- Dashboard
-- New Session
-- Practice Session
-- Interview Session
-- Session Result
-- Admin Dashboard
-
 ---
 
 ## ⚙️ Installation
